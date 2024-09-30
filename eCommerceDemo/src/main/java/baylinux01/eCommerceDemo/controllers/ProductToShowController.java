@@ -33,9 +33,9 @@ public class ProductToShowController {
 			HttpServletRequest request
 			,String name
 			,MultipartFile multipartFileForImage
-			,double price) throws IOException
+			,double price,String code) throws IOException
 	{
-		return productToShowService.createProductToShow(request,name,multipartFileForImage,price);
+		return productToShowService.createProductToShow(request,name,multipartFileForImage,price,code);
 	}
 	
 	@PutMapping("/updateProductToShow")
@@ -44,9 +44,10 @@ public class ProductToShowController {
 			HttpServletRequest request
 			,String name
 			,MultipartFile multipartFileForImage
-			,double price) throws IOException
+			,double price,String code) throws IOException
 	{
-		return productToShowService.updateProductToShow(productToShowId,request,name,multipartFileForImage,price);
+		return productToShowService.updateProductToShow(productToShowId,request,name
+				,multipartFileForImage,price,code);
 	}
 	
 	@GetMapping("/getAllProductsToShow")

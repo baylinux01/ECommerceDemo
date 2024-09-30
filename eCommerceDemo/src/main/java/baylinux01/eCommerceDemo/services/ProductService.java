@@ -73,7 +73,7 @@ public class ProductService {
 					for(Product product: products)
 					{
 						if(product.getStatus().equals(ProductStatuses.UNPAID))
-						total+=product.getPrice();
+						total+=product.getNumber()*product.getUnit_price();
 					}
 					//send virtual pos a request here
 					boolean virtual_pos_result=true;

@@ -53,10 +53,21 @@ public class BasketService {
 				ProductToShow productToShow=productToShowRepository.findById(productToShowId).orElse(null);
 				if(productToShow!=null)
 				{
+					Product product0=productRepository.findByCode(productToShow.getCode());
+					if(product0!=null&&product0.getStatus().equals(ProductStatuses.UNPAID)) 
+					{
+						product0.setNumber(product0.getNumber()+1);
+						productRepository.save(product0);
+						return "product number increased";
+					}
+					else
+					{
 					Product product=new Product();
 					product.setBasket(basket);
 					product.setName(productToShow.getName());
-					product.setPrice(productToShow.getPrice());
+					product.setCode(productToShow.getCode());
+					product.setNumber(1);
+					product.setUnit_price(productToShow.getUnit_price());
 					product.setImage(productToShow.getImage());
 					product.setStatus(ProductStatuses.UNPAID);
 					productRepository.save(product);
@@ -65,6 +76,7 @@ public class BasketService {
 					basket.setProducts(productsOfBasket);
 					basketRepository.save(basket);
 					return "success";
+					}
 				}
 				else
 				{
@@ -83,6 +95,7 @@ public class BasketService {
 			return "fail";
 		}
 		
+		
 	}
 	@Transactional
 	public String removeProductFromBasket(HttpServletRequest request, Long productId) {
@@ -99,14 +112,23 @@ public class BasketService {
 				Product product=productRepository.findById(productId).orElse(null);
 				if(product!=null&&product.getStatus().equals(ProductStatuses.UNPAID))
 				{
+					if(product.getNumber()>1)
+					{
+						product.setNumber(product.getNumber()-1);
+						productRepository.save(product);
+						return "product number decreased";
+					}
+					else
+					{
+						List<Product> productsOfBasket=basket.getProducts();
+						productsOfBasket.remove(product);
+						basket.setProducts(productsOfBasket);
+						productRepository.delete(product);
+						basketRepository.save(basket);
+						return "product successfully removed from basket";
+					}
 					
 					
-					List<Product> productsOfBasket=basket.getProducts();
-					productsOfBasket.remove(product);
-					basket.setProducts(productsOfBasket);
-					productRepository.delete(product);
-					basketRepository.save(basket);
-					return "product successfully removed from basket";
 				}
 				else
 				{

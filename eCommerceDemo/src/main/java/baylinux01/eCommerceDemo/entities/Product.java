@@ -14,10 +14,12 @@ public class Product {
 	private long id;
 	
 	private String name;
+	private String code;
+	private long number;
 	@Lob
 	private byte[] image;
 	
-	private double price;
+	private double unit_price;
 	
 	@ManyToOne
 	private Basket basket;
@@ -40,6 +42,22 @@ public class Product {
 		this.name = name;
 	}
 
+	public String getCode() {
+		return code;
+	}
+
+	public void setCode(String code) {
+		this.code = code;
+	}
+
+	public long getNumber() {
+		return number;
+	}
+
+	public void setNumber(long number) {
+		this.number = number;
+	}
+
 	public byte[] getImage() {
 		return image;
 	}
@@ -48,12 +66,12 @@ public class Product {
 		this.image = image;
 	}
 
-	public double getPrice() {
-		return price;
+	public double getUnit_price() {
+		return unit_price;
 	}
 
-	public void setPrice(double price) {
-		this.price = price;
+	public void setUnit_price(double unit_price) {
+		this.unit_price = unit_price;
 	}
 
 	public Basket getBasket() {
@@ -71,8 +89,7 @@ public class Product {
 	public void setStatus(String status) {
 		this.status = status;
 	}
-	
-	
+
 	
 	
 }

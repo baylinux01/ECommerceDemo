@@ -33,11 +33,13 @@ public class ProductToShowService {
 			HttpServletRequest request
 			,String name
 			,MultipartFile multipartFileForImage
-			,double price) throws IOException 
+			,double price,String code) throws IOException 
 	{
 		if(name==null || name.equals("")) return "product name cannot be null";
 		if(!name.matches("^[öüÖÜĞğşŞçÇıİ|a-z|A-Z|0-9]{2,20}(\\s[öüÖÜĞğşŞçÇıİ|a-z|A-Z|0-9]{2,20}){2,10}$")) 
 			return "product name is not suitable to the format";
+		if(!code.matches("^[öüÖÜĞğşŞçÇıİ|a-z|A-Z|0-9]{2,20}")) 
+			return "product code is not suitable to the format";
 		if(price<=0) return "price cannot be negative or zero";
 		if(multipartFileForImage==null) return "product image cannot be null";
 		if(!multipartFileForImage.getContentType().equals("image/jpeg")
@@ -55,7 +57,8 @@ public class ProductToShowService {
 				ProductToShow productToShow=new ProductToShow();
 				productToShow.setName(name);
 				productToShow.setImage(multipartFileForImage.getBytes());
-				productToShow.setPrice(price);
+				productToShow.setUnit_price(price);
+				productToShow.setCode(code);
 				
 				productToShowRepository.save(productToShow);
 				
@@ -69,11 +72,13 @@ public class ProductToShowService {
 	}
 
 	public String updateProductToShow(long productToShowId, HttpServletRequest request, String name,
-			MultipartFile multipartFileForImage, double price) throws IOException {
+			MultipartFile multipartFileForImage, double price,String code) throws IOException {
 		{
 			if(name==null || name.equals("")) return "product name cannot be null";
 			if(!name.matches("^[öüÖÜĞğşŞçÇıİ|a-z|A-Z|0-9]{2,20}(\\s[öüÖÜĞğşŞçÇıİ|a-z|A-Z|0-9]{2,20}){2,10}$")) 
 				return "product name is not suitable to the format";
+			if(!code.matches("^[öüÖÜĞğşŞçÇıİ|a-z|A-Z|0-9]{2,20}")) 
+				return "product code is not suitable to the format";
 			if(price<=0) return "price cannot be negative or zero";
 			if(multipartFileForImage==null) return "product image cannot be null";
 			if(!multipartFileForImage.getContentType().equals("image/jpeg")
@@ -95,7 +100,8 @@ public class ProductToShowService {
 						{
 							productToShow.setName(name);
 							productToShow.setImage(multipartFileForImage.getBytes());
-							productToShow.setPrice(price);
+							productToShow.setUnit_price(price);
+							if(code!=null)productToShow.setCode(code);
 							
 							productToShowRepository.save(productToShow);
 							return "productToShow is successfully updated";
