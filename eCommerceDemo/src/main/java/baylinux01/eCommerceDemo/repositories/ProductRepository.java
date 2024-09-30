@@ -14,4 +14,6 @@ public interface ProductRepository extends JpaRepository<Product, Long>{
 
 	Product findByCode(String code);
 
+	Product findByCodeAndStatus(String code, String unpaid);
+
 }

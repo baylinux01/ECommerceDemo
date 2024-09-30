@@ -53,7 +53,7 @@ public class BasketService {
 				ProductToShow productToShow=productToShowRepository.findById(productToShowId).orElse(null);
 				if(productToShow!=null)
 				{
-					Product product0=productRepository.findByCode(productToShow.getCode());
+					Product product0=productRepository.findByCodeAndStatus(productToShow.getCode(),ProductStatuses.UNPAID);
 					if(product0!=null&&product0.getStatus().equals(ProductStatuses.UNPAID)) 
 					{
 						product0.setNumber(product0.getNumber()+1);
