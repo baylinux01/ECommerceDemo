@@ -24,7 +24,7 @@ public class AppUserDetails implements UserDetails{
 		// TODO Auto-generated method stub
 		String[] array=appUser.getRoles().split("-");
 		List<GrantedAuthority> list=new ArrayList<GrantedAuthority>();
-		for(int i=0;i>array.length;i++)
+		for(int i=0;i<array.length;i++)
 		{
 			list.add(new SimpleGrantedAuthority(array[i]));
 		}
